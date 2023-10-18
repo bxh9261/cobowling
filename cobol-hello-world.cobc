@@ -1,5 +1,55 @@
-IDENTIFICATION DIVISION.
-PROGRAM-ID. HELLO-WORLD.
-PROCEDURE DIVISION.
-DISPLAY 'Hello, world'.
-STOP RUN.
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. BowlingGame.
+       
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 Pins PIC X(11) VALUE ' 7 7 7 7 7 '.
+       01 Score PIC 9(3) VALUE 0.
+       01 Direction PIC X.
+       
+       PROCEDURE DIVISION.
+           DISPLAY 'Welcome to ASCII Bowling Game'.
+           PERFORM DisplayPins.
+           PERFORM UntilGameOver.
+           DISPLAY 'Game Over. Your score is ' Score.
+           STOP RUN.
+           
+       DisplayPins.
+           DISPLAY ' 1 2 3 4 5 6 7 8 9 10'
+           DISPLAY '-------------------'
+           DISPLAY ' ' Pins
+           DISPLAY '-------------------'.
+           
+       UntilGameOver.
+           DISPLAY 'Press "L" for left, "R" for right, or "S" for straight.'
+           ACCEPT Direction.
+           IF Direction = 'L' THEN
+               PERFORM BowlLeft
+           ELSE IF Direction = 'R' THEN
+               PERFORM BowlRight
+           ELSE IF Direction = 'S' THEN
+               PERFORM BowlStraight
+           ELSE
+               DISPLAY 'Invalid input. Try again.'
+           END-IF.
+           PERFORM DisplayPins.
+           IF Score < 10 THEN
+               ADD 1 TO Score
+           END-IF.
+           IF Score >= 10
+               DISPLAY 'Strike! You win!'
+           ELSE
+               DISPLAY 'Next frame.'
+           END-IF.
+           IF Score = 10
+               DISPLAY 'You win!'
+           END-IF.
+           
+       BowlLeft.
+           MOVE '7 ' TO Pins.
+           
+       BowlRight.
+           MOVE ' 7' TO Pins.
+           
+       BowlStraight.
+           MOVE ' 7 7 ' TO Pins.
